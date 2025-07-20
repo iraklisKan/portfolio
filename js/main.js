@@ -181,30 +181,8 @@ const effects = {
     },
 
     createCursorEffect() {
-        if (window.innerWidth <= 768) return; // Skip on mobile
-
-        const cursor = utils.createElement('div', '', {
-            position: 'fixed',
-            width: '20px',
-            height: '20px',
-            background: 'radial-gradient(circle, rgba(37, 99, 235, 0.8), transparent)',
-            borderRadius: '50%',
-            pointerEvents: 'none',
-            zIndex: '9999',
-            transition: 'transform 0.1s ease'
-        });
-
-        document.body.appendChild(cursor);
-
-        const updateCursor = utils.throttle((e) => {
-            cursor.style.left = `${e.clientX - 10}px`;
-            cursor.style.top = `${e.clientY - 10}px`;
-        }, 16);
-
-        document.addEventListener('mousemove', updateCursor);
-
-        // Scale cursor on interactive elements
-        this.setupCursorInteractions(cursor);
+        // Custom cursor effect disabled
+        return;
     },
 
     setupCursorInteractions(cursor) {
@@ -307,6 +285,122 @@ const performance = {
                 particle.remove();
             }
         });
+    }
+};
+
+// Dynamic Titles Module
+const dynamicTitles = {
+    init() {
+        this.setupSplitText();
+        this.setupTypingEffects();
+        this.setupInteractiveEffects();
+        this.observeTitles();
+    },
+
+    setupSplitText() {
+        const splitTextTitles = document.querySelectorAll('.section-title.split-text');
+        
+        splitTextTitles.forEach(title => {
+            const text = title.textContent;
+            title.innerHTML = '';
+            
+            // Split text into individual letters
+            [...text].forEach((letter, index) => {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = letter === ' ' ? '\u00A0' : letter;
+                span.style.animationDelay = `${index * 0.1}s`;
+                title.appendChild(span);
+            });
+        });
+    },
+
+    setupTypingEffects() {
+        const typingTitles = document.querySelectorAll('.section-title.typing-effect');
+        
+        typingTitles.forEach(title => {
+            const text = title.getAttribute('data-text') || title.textContent;
+            title.textContent = '';
+            
+            let index = 0;
+            const typeWriter = () => {
+                if (index < text.length) {
+                    title.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 100);
+                } else {
+                    // Remove typing cursor after completion
+                    setTimeout(() => {
+                        title.style.borderRight = 'none';
+                    }, 1000);
+                }
+            };
+            
+            // Start typing when title becomes visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && title.textContent === '') {
+                        setTimeout(typeWriter, 500);
+                        observer.unobserve(title);
+                    }
+                });
+            });
+            
+            observer.observe(title);
+        });
+    },
+
+    setupInteractiveEffects() {
+        const interactiveTitles = document.querySelectorAll('.section-title.interactive');
+        
+        interactiveTitles.forEach(title => {
+            title.addEventListener('click', () => {
+                this.triggerRandomEffect(title);
+            });
+
+            title.addEventListener('mouseenter', () => {
+                title.style.cursor = 'pointer';
+            });
+        });
+    },
+
+    triggerRandomEffect(title) {
+        const effects = ['bounce', 'shake', 'rotate', 'pulse', 'flash'];
+        const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+        
+        title.classList.add(randomEffect);
+        
+        setTimeout(() => {
+            title.classList.remove(randomEffect);
+        }, 600);
+    },
+
+    observeTitles() {
+        const titles = document.querySelectorAll('.section-title');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('title-visible');
+                    this.animateTitle(entry.target);
+                }
+            });
+        }, config.observerOptions);
+
+        titles.forEach(title => observer.observe(title));
+    },
+
+    animateTitle(title) {
+        // Add staggered animation to letters if split text
+        if (title.classList.contains('split-text')) {
+            const letters = title.querySelectorAll('.letter');
+            letters.forEach((letter, index) => {
+                setTimeout(() => {
+                    letter.style.transform = 'translateY(0)';
+                    letter.style.opacity = '1';
+                }, index * 50);
+            });
+        }
     }
 };
 
