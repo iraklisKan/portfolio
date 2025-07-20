@@ -78,11 +78,12 @@ const animations = {
 
     // Animate child elements with stagger effect
     animateChildren(section) {
-        const children = section.querySelectorAll('.project-card, .skill-card, .contact-item');
+        const children = section.querySelectorAll('.project-card, .skill-card, .contact-item, .experience-content');
         children.forEach((child, index) => {
             setTimeout(() => {
                 child.style.transform = 'translateY(0) rotateX(0)';
                 child.style.opacity = '1';
+                child.classList.add('visible', 'animate');
             }, index * 100);
         });
     },
@@ -208,7 +209,7 @@ const effects = {
 
     setupCursorInteractions(cursor) {
         const interactiveElements = document.querySelectorAll(
-            'a, button, .project-card, .skill-card, .contact-item'
+            'a, button, .project-card, .skill-card, .contact-item, .experience-content'
         );
 
         interactiveElements.forEach(el => {
@@ -224,7 +225,7 @@ const effects = {
 
     initHoverEffects() {
         // Add ripple effect to cards
-        const cards = document.querySelectorAll('.project-card, .skill-card');
+        const cards = document.querySelectorAll('.project-card, .skill-card, .experience-content');
         
         cards.forEach(card => {
             card.addEventListener('click', (e) => {

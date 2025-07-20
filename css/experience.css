@@ -1,0 +1,300 @@
+/* Experience Section Styles */
+
+#experience {
+    background: linear-gradient(135deg, 
+        rgba(15, 23, 42, 0.95), 
+        rgba(30, 41, 59, 0.95)
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+#experience::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(37, 99, 235, 0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.experience-timeline {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.experience-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.experience-item {
+    position: relative;
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.experience-item:nth-child(odd) .experience-content {
+    margin-left: auto;
+    margin-right: calc(50% + 2rem);
+    text-align: right;
+}
+
+.experience-item:nth-child(even) .experience-content {
+    margin-left: calc(50% + 2rem);
+    margin-right: auto;
+    text-align: left;
+}
+
+/* Single item centered layout */
+.experience-item:only-child .experience-content {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    max-width: 500px;
+}
+
+.experience-item:only-child .experience-content::before {
+    display: none;
+}
+
+.experience-content {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 400px;
+    position: relative;
+    transition: all 0.3s ease;
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+.experience-content.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.experience-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.experience-content::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    transform: translateY(-50%);
+}
+
+.experience-item:nth-child(odd) .experience-content::before {
+    right: -20px;
+    border-left-color: rgba(255, 255, 255, 0.1);
+}
+
+.experience-item:nth-child(even) .experience-content::before {
+    left: -20px;
+    border-right-color: rgba(255, 255, 255, 0.1);
+}
+
+.experience-date {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    z-index: 2;
+    border: 3px solid var(--bg-color);
+    min-width: 120px;
+    text-align: center;
+}
+
+.experience-company {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.experience-date-inline {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.experience-title {
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.experience-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.experience-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.experience-skill {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    transition: all 0.3s ease;
+}
+
+.experience-skill:hover {
+    background: rgba(37, 99, 235, 0.2);
+    border-color: rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+}
+
+.company-icon {
+    font-size: 1.2rem;
+}
+
+.experience-location {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.experience-location::before {
+    content: '📍';
+    font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .experience-timeline::before {
+        left: 2rem;
+    }
+    
+    .experience-item:nth-child(odd) .experience-content,
+    .experience-item:nth-child(even) .experience-content {
+        margin-left: 4rem;
+        margin-right: 1rem;
+        text-align: left;
+        max-width: none;
+    }
+    
+    .experience-content::before {
+        display: none;
+    }
+    
+    .experience-content {
+        padding: 1.5rem;
+    }
+    
+    .experience-title {
+        font-size: 1.1rem;
+    }
+    
+    .experience-company {
+        font-size: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+    
+    .experience-date-inline {
+        margin-left: 0;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .experience-timeline::before {
+        left: 1rem;
+    }
+    
+    .experience-item:nth-child(odd) .experience-content,
+    .experience-item:nth-child(even) .experience-content {
+        margin-left: 2.5rem;
+        margin-right: 0.5rem;
+    }
+    
+    .experience-content {
+        padding: 1rem;
+    }
+}
+
+/* Animation for timeline items */
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100px) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100px) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+}
+
+.experience-item:nth-child(odd) .experience-content.animate {
+    animation: slideInFromLeft 0.8s ease forwards;
+}
+
+.experience-item:nth-child(even) .experience-content.animate {
+    animation: slideInFromRight 0.8s ease forwards;
+}
