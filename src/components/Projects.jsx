@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Projects = () => {
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+
   const projects = [
     {
       title: "E-Commerce Platform",
@@ -52,8 +55,30 @@ const Projects = () => {
     }
   ];
 
+  const handleProjectClick = (project, type) => {
+    setSelectedProject({ ...project, linkType: type });
+    setShowAnimation(true);
+  };
+
+  const handleNext = () => {
+    if (selectedProject) {
+      const url = selectedProject.linkType === 'live' ? selectedProject.liveUrl : selectedProject.githubUrl;
+      if (url !== '#') {
+        window.open(url, '_blank');
+      }
+    }
+    setShowAnimation(false);
+    setSelectedProject(null);
+  };
+
+  const handleClose = () => {
+    setShowAnimation(false);
+    setSelectedProject(null);
+  };
+
   return (
-    <section id="projects" className="section">
+    <>
+      <section id="projects" className="section">
       <div className="container">
         <h2 className="section-title">Featured Projects</h2>
         <div className="projects-grid">
@@ -71,8 +96,18 @@ const Projects = () => {
                   ))}
                 </div>
                 <div className="project-links">
-                  <a href={project.liveUrl} className="project-link">Live Demo</a>
-                  <a href={project.githubUrl} className="project-link">GitHub</a>
+                  <button 
+                    onClick={() => handleProjectClick(project, 'live')}
+                    className="project-link"
+                  >
+                    Live Demo
+                  </button>
+                  <button 
+                    onClick={() => handleProjectClick(project, 'github')}
+                    className="project-link"
+                  >
+                    GitHub
+                  </button>
                 </div>
               </div>
             </div>
@@ -80,6 +115,42 @@ const Projects = () => {
         </div>
       </div>
     </section>
+
+    {/* Animated Loading Screen */}
+    {showAnimation && selectedProject && (
+      <div className="project-animation-overlay">
+        <div className="project-animation-container">
+          <div className="animation-content">
+            <div className="project-preview">
+              <div className="preview-icon">{selectedProject.image}</div>
+              <h2>{selectedProject.title}</h2>
+              <p>{selectedProject.description}</p>
+              <div className="tech-showcase">
+                {selectedProject.technologies.map((tech, index) => (
+                  <span key={index} className="tech-bubble">{tech}</span>
+                ))}
+              </div>
+            </div>
+            
+            <div className="loading-animation">
+              <div className="loader-ring"></div>
+              <div className="loader-ring"></div>
+              <div className="loader-ring"></div>
+            </div>
+            
+            <div className="animation-controls">
+              <button onClick={handleNext} className="next-btn">
+                Enter Project
+              </button>
+              <button onClick={handleClose} className="close-btn">
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   );
 };
 
