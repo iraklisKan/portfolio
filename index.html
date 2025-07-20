@@ -460,7 +460,12 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
-            animation: fadeIn 0.3s ease-in-out;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .resume-modal.show {
+            opacity: 1;
         }
 
         @keyframes fadeIn {
@@ -1261,28 +1266,44 @@
             const modal = document.getElementById('resumeModal');
             const iframe = document.getElementById('resumeFrame');
             
-            // Set the PDF source
-            iframe.src = './resume.pdf';
-            
-            // Show the modal
+            // Show the modal IMMEDIATELY
             modal.style.display = 'block';
+            modal.style.opacity = '1';
+            
+            // Set the PDF source (preload if not already set)
+            if (!iframe.src || iframe.src.indexOf('resume.pdf') === -1) {
+                iframe.src = './resume.pdf#toolbar=1&navpanes=0&scrollbar=1';
+            }
             
             // Prevent body scrolling when modal is open
             document.body.style.overflow = 'hidden';
+            
+            // Focus on the modal for better accessibility
+            modal.focus();
+            
+            // Add escape key handler
+            document.addEventListener('keydown', handleEscapeKey);
         }
 
         function closeResume() {
             const modal = document.getElementById('resumeModal');
-            const iframe = document.getElementById('resumeFrame');
             
-            // Hide the modal
+            // Hide the modal immediately
             modal.style.display = 'none';
-            
-            // Clear the iframe source
-            iframe.src = '';
+            modal.style.opacity = '0';
             
             // Restore body scrolling
             document.body.style.overflow = 'auto';
+            
+            // Remove escape key handler
+            document.removeEventListener('keydown', handleEscapeKey);
+        }
+
+        // Handle escape key press
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                closeResume();
+            }
         }
 
         // Close modal when clicking outside of it
@@ -1292,16 +1313,6 @@
                 closeResume();
             }
         }
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modal = document.getElementById('resumeModal');
-                if (modal.style.display === 'block') {
-                    closeResume();
-                }
-            }
-        });
 
         // Mobile menu toggle (for future enhancement)
         document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
