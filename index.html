@@ -28,6 +28,7 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#education">Education</a></li>
+                <li><a href="#courses">Courses</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -151,33 +152,106 @@
     <section id="education" class="section">
         <div class="container">
             <h2 class="section-title gradient-text">Education</h2>
-            <div class="experience-timeline">
-                
-                <div class="experience-item">
-                    <div class="experience-content">
-                        <div class="experience-company">
-                            <span class="company-icon">🎓</span>
-                            University of Macedonia
-                            <span class="experience-date-inline">2020 - Present</span>
-                        </div>
-                        <div class="experience-location">Thessaloniki, Greece</div>
-                        <h3 class="experience-title">Bachelor's Degree in Applied Informatics</h3>
-                        <p class="experience-description">
-                            Currently pursuing a Bachelor's degree in Applied Informatics with a focus on Computers and Technology. 
-                            The program covers comprehensive computer science fundamentals, software development methodologies, 
-                            database systems, web technologies, and modern programming practices. Gaining practical experience 
-                            in software engineering, system analysis, and technological innovation.
-                        </p>
-                        <div class="experience-skills">
-                            <span class="experience-skill">Computer Science</span>
-                            <span class="experience-skill">Software Engineering</span>
-                            <span class="experience-skill">Database Systems</span>
-                            <span class="experience-skill">Web Technologies</span>
-                            <span class="experience-skill">Programming</span>
-                            <span class="experience-skill">System Analysis</span>
+            
+            <!-- Formal Education -->
+            <div class="education-category">
+                <h3 class="education-category-title">🎓 Formal Education</h3>
+                <div class="experience-timeline">
+                    <div class="experience-item">
+                        <div class="experience-content">
+                            <div class="experience-company">
+                                <span class="company-icon">🎓</span>
+                                University of Macedonia
+                                <span class="experience-date-inline">2020 - Present</span>
+                            </div>
+                            <div class="experience-location">Thessaloniki, Greece</div>
+                            <h3 class="experience-title">Bachelor's Degree in Applied Informatics</h3>
+                            <p class="experience-description">
+                                Currently pursuing a Bachelor's degree in Applied Informatics with a focus on Computers and Technology. 
+                                The program covers comprehensive computer science fundamentals, software development methodologies, 
+                                database systems, web technologies, and modern programming practices.
+                            </p>
+                            <div class="experience-skills">
+                                <span class="experience-skill">Computer Science</span>
+                                <span class="experience-skill">Software Engineering</span>
+                                <span class="experience-skill">Database Systems</span>
+                                <span class="experience-skill">Web Technologies</span>
+                                <span class="experience-skill">Programming</span>
+                                <span class="experience-skill">System Analysis</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Online Courses -->
+            <div class="education-category" id="courses">
+                <h3 class="education-category-title">💻 Professional Development - Udemy Courses</h3>
+                <div class="courses-grid">
+                    
+                    <!-- C++ Course -->
+                    <div class="course-card">
+                        <div class="course-icon">📚</div>
+                        <h4 class="course-title">Modern C++ Programming</h4>
+                        <p class="course-platform">Udemy</p>
+                        <p class="course-description">
+                            Learn and Master Modern C++ From Beginning to Advanced in Plain English: C++11, C++14, C++17, C++20 and More!
+                        </p>
+                        <div class="course-skills">
+                            <span class="course-skill">C++</span>
+                            <span class="course-skill">C++11</span>
+                            <span class="course-skill">C++14</span>
+                            <span class="course-skill">C++17</span>
+                            <span class="course-skill">C++20</span>
+                        </div>
+                        <div class="course-status">✅ Completed</div>
+                    </div>
+
+                    <!-- .NET API Course -->
+                    <div class="course-card">
+                        <div class="course-icon">📚</div>
+                        <h4 class="course-title">C# .NET API Development</h4>
+                        <p class="course-platform">Udemy</p>
+                        <p class="course-description">
+                            Learn API Development with C# .NET and MS SQL Server from Mac, Linux or Windows!
+                        </p>
+                        <div class="course-skills">
+                            <span class="course-skill">C#</span>
+                            <span class="course-skill">.NET</span>
+                            <span class="course-skill">API Development</span>
+                            <span class="course-skill">MS SQL Server</span>
+                        </div>
+                        <div class="course-status">✅ Completed</div>
+                        <div class="certificate-actions">
+                            <button class="certificate-btn view-certificate" onclick="viewCertificate('cshap cert.pdf')">
+                                <span class="certificate-icon">👁️</span>
+                                View Certificate
+                            </button>
+                            <button class="certificate-btn download-certificate" onclick="downloadCertificate('cshap cert.pdf', 'C# .NET API Development Certificate')">
+                                <span class="certificate-icon">⬇️</span>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Python Course -->
+                    <div class="course-card">
+                        <div class="course-icon">📚</div>
+                        <h4 class="course-title">Python Programming</h4>
+                        <p class="course-platform">Udemy</p>
+                        <p class="course-description">
+                            Learn Python from zero to advanced by building real programs to gain the skills needed to land an entry-level job.
+                        </p>
+                        <div class="course-skills">
+                            <span class="course-skill">Python</span>
+                            <span class="course-skill">Programming</span>
+                            <span class="course-skill">Project Development</span>
+                        </div>
+                        <div class="course-status">✅ Completed</div>
+                    </div>
+
+                </div>
+            </div>
 
             </div>
         </div>
@@ -298,14 +372,6 @@
                         </div>
                     </a>
                 </div>
-                
-
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/iraklis-kanarkotis/" target="_blank" class="social-link" title="LinkedIn">💼</a>
-                    <a href="https://github.com/iraklisKan" target="_blank" class="social-link" title="GitHub">🐙</a>
-                    <a href="mailto:irakliskanbusiness@gmail.com" class="social-link" title="Email">📧</a>
-                    <a href="tel:+35797888715" class="social-link" title="Phone">📱</a>
-                </div>
             </div>
         </div>
     </section>
@@ -314,7 +380,6 @@
     <footer class="footer">
         <div class="container">
             <p>&copy; 2025 Iraklis Kanarkotis. All rights reserved.</p>
-            <p>Built with HTML, CSS & JavaScript</p>
         </div>
     </footer>
 

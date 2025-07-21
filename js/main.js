@@ -481,6 +481,71 @@ const app = {
     }
 };
 
+// Certificate Functions
+const certificateManager = {
+    /**
+     * View certificate in a new tab/window
+     * @param {string} filename - Name of the certificate file
+     */
+    viewCertificate: (filename) => {
+        const certificatePath = `./${filename}`;
+        
+        // Check if file exists by trying to load it
+        const link = document.createElement('a');
+        link.href = certificatePath;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        
+        // Add some visual feedback
+        const button = event.target.closest('.certificate-btn');
+        if (button) {
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+            }, 150);
+        }
+        
+        // Open in new tab
+        window.open(certificatePath, '_blank', 'noopener,noreferrer');
+    },
+
+    /**
+     * Download certificate file
+     * @param {string} filename - Name of the certificate file
+     * @param {string} displayName - Display name for the download
+     */
+    downloadCertificate: (filename, displayName) => {
+        const certificatePath = `./${filename}`;
+        
+        // Create a temporary link element for download
+        const link = document.createElement('a');
+        link.href = certificatePath;
+        link.download = displayName || filename;
+        
+        // Add visual feedback
+        const button = event.target.closest('.certificate-btn');
+        if (button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="certificate-icon">⏳</span>Downloading...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }, 2000);
+        }
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+};
+
+// Global functions for HTML onclick handlers
+window.viewCertificate = certificateManager.viewCertificate;
+window.downloadCertificate = certificateManager.downloadCertificate;
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     app.init();
@@ -494,5 +559,5 @@ window.addEventListener('load', () => {
 
 // Export for testing
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { app, navigation, animations, effects, utils };
+    module.exports = { app, navigation, animations, effects, utils, certificateManager };
 }

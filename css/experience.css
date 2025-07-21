@@ -298,3 +298,289 @@
 .experience-item:nth-child(even) .experience-content.animate {
     animation: slideInFromRight 0.8s ease forwards;
 }
+
+/* Education Category Styles */
+.education-category {
+    margin-bottom: 4rem;
+    position: relative;
+}
+
+.education-category-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-accent);
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(96, 165, 250, 0.1));
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.education-category-title::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    right: 2rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+    transform: translateY(-50%);
+    z-index: -1;
+}
+
+/* Course Status Styling */
+.course-status {
+    color: #10b981;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Courses Grid Layout - Horizontal Display with Timeline Styling */
+.courses-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.course-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: none;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+/* Course Header (matching experience company styling) */
+.course-card .course-icon {
+    display: inline-block;
+    font-size: 1.2rem;
+    margin-right: 0.8rem;
+    vertical-align: middle;
+}
+
+.course-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-accent);
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.course-platform {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.course-description {
+    color: white;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.course-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.course-skill {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    transition: all 0.3s ease;
+}
+
+.course-skill:hover {
+    background: rgba(37, 99, 235, 0.2);
+    border-color: rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Responsive design for courses */
+@media (max-width: 1200px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+    }
+    
+    .course-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .course-card {
+        padding: 1.2rem;
+    }
+    
+    .course-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Certificate Actions - More Visible White Styling */
+.certificate-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.certificate-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25));
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+    backdrop-filter: blur(5px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.certificate-btn:hover {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.35));
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.certificate-btn:active {
+    transform: translateY(-1px);
+}
+
+.certificate-icon {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.certificate-btn:hover .certificate-icon {
+    transform: scale(1.2);
+}
+
+.view-certificate {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(240, 253, 244, 0.3));
+    border-color: rgba(255, 255, 255, 0.4);
+    color: white;
+}
+
+.view-certificate:hover {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(240, 253, 244, 0.4));
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+}
+
+.download-certificate {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(250, 245, 255, 0.3));
+    border-color: rgba(255, 255, 255, 0.4);
+    color: white;
+}
+
+.download-certificate:hover {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(250, 245, 255, 0.4));
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+/* Education section background */
+#education {
+    background: linear-gradient(135deg, 
+        rgba(15, 23, 42, 0.95), 
+        rgba(30, 41, 59, 0.95)
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+#education::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(37, 99, 235, 0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    z-index: 0;
+}
+
+/* Responsive adjustments for education categories */
+@media (max-width: 768px) {
+    .education-category-title {
+        font-size: 1.5rem;
+        padding: 0.8rem 1.5rem;
+    }
+    
+    .education-category {
+        margin-bottom: 3rem;
+    }
+    
+    .courses-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .course-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .courses-grid {
+        gap: 1rem;
+    }
+    
+    .course-card {
+        padding: 1.2rem;
+    }
+    
+    .course-title {
+        font-size: 1.1rem;
+    }
+}

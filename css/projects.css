@@ -1,17 +1,38 @@
 /* Projects Section Styles */
 .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2.5rem;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem;
+    margin-top: 2rem;
+    width: 100%;
 }
 
 .project-card {
     border-radius: var(--border-radius);
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
+    opacity: 1;
+    transform: none;
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Responsive design for projects */
+@media (max-width: 1200px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+    }
 }
 
 .section.visible .project-card {
