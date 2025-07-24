@@ -1,14 +1,46 @@
 // Portfolio JavaScript - Modular Approach
 
-// DOM Elements
+// DOM Elements - Cached for performance
 const elements = {
-    navbar: document.querySelector('.navbar'),
-    navLinks: document.querySelectorAll('a[href^="#"]'),
-    sections: document.querySelectorAll('.section'),
-    mobileMenuToggle: document.querySelector('.mobile-menu-toggle'),
-    navLinksContainer: document.querySelector('.nav-links'),
-    heroContent: document.querySelector('.hero-content'),
-    hero: document.querySelector('.hero')
+    navbar: null,
+    navLinks: null,
+    sections: null,
+    mobileMenuToggle: null,
+    navLinksContainer: null,
+    heroContent: null,
+    hero: null,
+    // Commonly queried elements cached here
+    projectCards: null,
+    skillCards: null,
+    contactItems: null,
+    experienceContent: null,
+    interactiveElements: null,
+    splitTextTitles: null,
+    typingTitles: null,
+    interactiveTitles: null,
+    sectionTitles: null
+};
+
+// Initialize DOM elements cache
+const initializeElements = () => {
+    elements.navbar = document.querySelector('.navbar');
+    elements.navLinks = document.querySelectorAll('a[href^="#"]');
+    elements.sections = document.querySelectorAll('.section');
+    elements.mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    elements.navLinksContainer = document.querySelector('.nav-links');
+    elements.heroContent = document.querySelector('.hero-content');
+    elements.hero = document.querySelector('.hero');
+    
+    // Cache commonly queried elements
+    elements.projectCards = document.querySelectorAll('.project-card');
+    elements.skillCards = document.querySelectorAll('.skill-card');
+    elements.contactItems = document.querySelectorAll('.contact-item');
+    elements.experienceContent = document.querySelectorAll('.experience-content');
+    elements.interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-card, .contact-item, .experience-content');
+    elements.splitTextTitles = document.querySelectorAll('.section-title.split-text');
+    elements.typingTitles = document.querySelectorAll('.section-title.typing-effect');
+    elements.interactiveTitles = document.querySelectorAll('.section-title.interactive');
+    elements.sectionTitles = document.querySelectorAll('.section-title');
 };
 
 // Configuration
@@ -19,6 +51,14 @@ const config = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     }
+};
+
+// Global state for cleanup
+const state = {
+    observers: [],
+    eventListeners: [],
+    animationFrames: [],
+    timeouts: []
 };
 
 // Utility Functions
@@ -57,14 +97,47 @@ const utils = {
         if (className) element.className = className;
         Object.assign(element.style, styles);
         return element;
+    },
+
+    // Performance-optimized timeout that tracks timeouts for cleanup
+    setTimeout: (callback, delay) => {
+        const timeoutId = setTimeout(callback, delay);
+        state.timeouts.push(timeoutId);
+        return timeoutId;
+    },
+
+    // Performance-optimized RAF that tracks frames for cleanup
+    requestAnimationFrame: (callback) => {
+        const frameId = requestAnimationFrame(callback);
+        state.animationFrames.push(frameId);
+        return frameId;
+    },
+
+    // Add event listener with cleanup tracking
+    addEventListener: (element, event, handler, options = {}) => {
+        element.addEventListener(event, handler, options);
+        state.eventListeners.push({ element, event, handler, options });
+    },
+
+    // Batch DOM updates to reduce reflows
+    batchDOMUpdates: (updates) => {
+        const fragment = document.createDocumentFragment();
+        updates.forEach(update => update(fragment));
+        return fragment;
     }
 };
 
 // Animation Module
 const animations = {
+    observer: null,
+
     // Intersection Observer for section animations
     initSectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
+        if (this.observer) {
+            this.observer.disconnect();
+        }
+
+        this.observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
@@ -73,42 +146,59 @@ const animations = {
             });
         }, config.observerOptions);
 
-        elements.sections.forEach(section => observer.observe(section));
+        state.observers.push(this.observer);
+        elements.sections.forEach(section => this.observer.observe(section));
     },
 
-    // Animate child elements with stagger effect
+    // Animate child elements with stagger effect - optimized with cached selectors
     animateChildren(section) {
         const children = section.querySelectorAll('.project-card, .skill-card, .contact-item, .experience-content');
+        
+        // Batch DOM updates for better performance
         children.forEach((child, index) => {
-            setTimeout(() => {
+            utils.setTimeout(() => {
+                // Use will-change to optimize animations
+                child.style.willChange = 'transform, opacity';
                 child.style.transform = 'translateY(0) rotateX(0)';
                 child.style.opacity = '1';
                 child.classList.add('visible', 'animate');
+                
+                // Remove will-change after animation
+                utils.setTimeout(() => {
+                    child.style.willChange = 'auto';
+                }, 800);
             }, index * 100);
         });
     },
 
     // Parallax effect for hero section
     initParallax() {
+        if (!elements.hero) return;
+
         const parallaxHandler = utils.throttle(() => {
             const scrolled = window.pageYOffset;
-            if (elements.hero) {
-                elements.hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-            }
+            // Use transform3d for hardware acceleration
+            elements.hero.style.transform = `translate3d(0, ${scrolled * 0.3}px, 0)`;
         }, 16); // ~60fps
 
-        window.addEventListener('scroll', parallaxHandler);
+        utils.addEventListener(window, 'scroll', parallaxHandler);
     },
 
-    // Fade in animation for elements
+    // Fade in animation for elements - optimized with RAF
     fadeInUp(element, delay = 0) {
         element.style.opacity = '0';
         element.style.transform = 'translateY(30px)';
+        element.style.willChange = 'transform, opacity';
         
-        setTimeout(() => {
+        utils.setTimeout(() => {
             element.style.transition = 'all 0.8s ease';
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
+            
+            // Cleanup will-change
+            utils.setTimeout(() => {
+                element.style.willChange = 'auto';
+            }, 800);
         }, delay);
     }
 };
@@ -130,12 +220,12 @@ const navigation = {
             }
         }, 16);
 
-        window.addEventListener('scroll', scrollHandler);
+        utils.addEventListener(window, 'scroll', scrollHandler);
     },
 
     setupSmoothScroll() {
         elements.navLinks.forEach(anchor => {
-            anchor.addEventListener('click', (e) => {
+            utils.addEventListener(anchor, 'click', (e) => {
                 e.preventDefault();
                 const target = document.querySelector(anchor.getAttribute('href'));
                 
@@ -150,7 +240,9 @@ const navigation = {
     },
 
     setupMobileMenu() {
-        elements.mobileMenuToggle?.addEventListener('click', () => {
+        if (!elements.mobileMenuToggle) return;
+
+        utils.addEventListener(elements.mobileMenuToggle, 'click', () => {
             const isVisible = elements.navLinksContainer.style.display === 'flex';
             elements.navLinksContainer.style.display = isVisible ? 'none' : 'flex';
         });
@@ -167,8 +259,10 @@ const effects = {
 
     createParticles() {
         const particlesContainer = utils.createElement('div', 'particles');
-        document.body.appendChild(particlesContainer);
-
+        
+        // Use DocumentFragment for better performance
+        const fragment = document.createDocumentFragment();
+        
         for (let i = 0; i < config.particleCount; i++) {
             const particle = utils.createElement('div', 'particle', {
                 left: `${utils.getRandomBetween(0, 100)}%`,
@@ -176,8 +270,11 @@ const effects = {
                 animationDuration: `${utils.getRandomBetween(8, 16)}s`
             });
             
-            particlesContainer.appendChild(particle);
+            fragment.appendChild(particle);
         }
+        
+        particlesContainer.appendChild(fragment);
+        document.body.appendChild(particlesContainer);
     },
 
     createCursorEffect() {
@@ -186,27 +283,27 @@ const effects = {
     },
 
     setupCursorInteractions(cursor) {
-        const interactiveElements = document.querySelectorAll(
-            'a, button, .project-card, .skill-card, .contact-item, .experience-content'
-        );
-
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
+        elements.interactiveElements.forEach(el => {
+            utils.addEventListener(el, 'mouseenter', () => {
                 cursor.style.transform = 'scale(2)';
             });
             
-            el.addEventListener('mouseleave', () => {
+            utils.addEventListener(el, 'mouseleave', () => {
                 cursor.style.transform = 'scale(1)';
             });
         });
     },
 
     initHoverEffects() {
-        // Add ripple effect to cards
-        const cards = document.querySelectorAll('.project-card, .skill-card, .experience-content');
+        // Use cached elements instead of querying DOM again
+        const allCards = [
+            ...elements.projectCards,
+            ...elements.skillCards,
+            ...elements.experienceContent
+        ];
         
-        cards.forEach(card => {
-            card.addEventListener('click', (e) => {
+        allCards.forEach(card => {
+            utils.addEventListener(card, 'click', (e) => {
                 this.createRipple(e, card);
             });
         });
@@ -233,19 +330,21 @@ const effects = {
         element.style.position = 'relative';
         element.appendChild(ripple);
 
-        setTimeout(() => ripple.remove(), 600);
+        utils.setTimeout(() => ripple.remove(), 600);
     }
 };
 
 // Performance Monitor
 const performance = {
+    frameId: null,
+
     init() {
         this.monitorFPS();
         this.optimizeAnimations();
     },
 
     monitorFPS() {
-        let lastTime = performance.now();
+        let lastTime = window.performance.now();
         let frameCount = 0;
 
         const measureFPS = (currentTime) => {
@@ -263,10 +362,10 @@ const performance = {
                 lastTime = currentTime;
             }
             
-            requestAnimationFrame(measureFPS);
+            this.frameId = utils.requestAnimationFrame(measureFPS);
         };
 
-        requestAnimationFrame(measureFPS);
+        this.frameId = utils.requestAnimationFrame(measureFPS);
     },
 
     optimizeAnimations() {
@@ -285,11 +384,21 @@ const performance = {
                 particle.remove();
             }
         });
+    },
+
+    // Cleanup method for performance monitor
+    cleanup() {
+        if (this.frameId) {
+            cancelAnimationFrame(this.frameId);
+            this.frameId = null;
+        }
     }
 };
 
 // Dynamic Titles Module
 const dynamicTitles = {
+    observers: [],
+
     init() {
         this.setupSplitText();
         this.setupTypingEffects();
@@ -298,11 +407,12 @@ const dynamicTitles = {
     },
 
     setupSplitText() {
-        const splitTextTitles = document.querySelectorAll('.section-title.split-text');
-        
-        splitTextTitles.forEach(title => {
+        elements.splitTextTitles.forEach(title => {
             const text = title.textContent;
             title.innerHTML = '';
+            
+            // Use DocumentFragment for better performance
+            const fragment = document.createDocumentFragment();
             
             // Split text into individual letters
             [...text].forEach((letter, index) => {
@@ -310,27 +420,30 @@ const dynamicTitles = {
                 span.className = 'letter';
                 span.textContent = letter === ' ' ? '\u00A0' : letter;
                 span.style.animationDelay = `${index * 0.1}s`;
-                title.appendChild(span);
+                fragment.appendChild(span);
             });
+            
+            title.appendChild(fragment);
         });
     },
 
     setupTypingEffects() {
-        const typingTitles = document.querySelectorAll('.section-title.typing-effect');
-        
-        typingTitles.forEach(title => {
+        elements.typingTitles.forEach(title => {
             const text = title.getAttribute('data-text') || title.textContent;
             title.textContent = '';
             
             let index = 0;
+            let animationId = null;
+            
+            // Optimized typing effect using RAF
             const typeWriter = () => {
                 if (index < text.length) {
                     title.textContent += text.charAt(index);
                     index++;
-                    setTimeout(typeWriter, 100);
+                    animationId = utils.setTimeout(typeWriter, 100);
                 } else {
                     // Remove typing cursor after completion
-                    setTimeout(() => {
+                    utils.setTimeout(() => {
                         title.style.borderRight = 'none';
                     }, 1000);
                 }
@@ -340,25 +453,25 @@ const dynamicTitles = {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && title.textContent === '') {
-                        setTimeout(typeWriter, 500);
+                        utils.setTimeout(typeWriter, 500);
                         observer.unobserve(title);
                     }
                 });
             });
             
+            this.observers.push(observer);
+            state.observers.push(observer);
             observer.observe(title);
         });
     },
 
     setupInteractiveEffects() {
-        const interactiveTitles = document.querySelectorAll('.section-title.interactive');
-        
-        interactiveTitles.forEach(title => {
-            title.addEventListener('click', () => {
+        elements.interactiveTitles.forEach(title => {
+            utils.addEventListener(title, 'click', () => {
                 this.triggerRandomEffect(title);
             });
 
-            title.addEventListener('mouseenter', () => {
+            utils.addEventListener(title, 'mouseenter', () => {
                 title.style.cursor = 'pointer';
             });
         });
@@ -370,14 +483,12 @@ const dynamicTitles = {
         
         title.classList.add(randomEffect);
         
-        setTimeout(() => {
+        utils.setTimeout(() => {
             title.classList.remove(randomEffect);
         }, 600);
     },
 
     observeTitles() {
-        const titles = document.querySelectorAll('.section-title');
-        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -387,7 +498,9 @@ const dynamicTitles = {
             });
         }, config.observerOptions);
 
-        titles.forEach(title => observer.observe(title));
+        this.observers.push(observer);
+        state.observers.push(observer);
+        elements.sectionTitles.forEach(title => observer.observe(title));
     },
 
     animateTitle(title) {
@@ -395,7 +508,7 @@ const dynamicTitles = {
         if (title.classList.contains('split-text')) {
             const letters = title.querySelectorAll('.letter');
             letters.forEach((letter, index) => {
-                setTimeout(() => {
+                utils.setTimeout(() => {
                     letter.style.transform = 'translateY(0)';
                     letter.style.opacity = '1';
                 }, index * 50);
@@ -408,6 +521,7 @@ const dynamicTitles = {
 const app = {
     init() {
         this.checkBrowserSupport();
+        initializeElements(); // Initialize cached DOM elements first
         this.loadComponents();
         this.bindEvents();
     },
@@ -433,6 +547,7 @@ const app = {
             animations.initParallax();
             effects.init();
             performance.init();
+            dynamicTitles.init(); // Add missing dynamicTitles initialization
             
             console.log('Portfolio loaded successfully');
         } catch (error) {
@@ -446,15 +561,20 @@ const app = {
             this.handleResize();
         }, 250);
 
-        window.addEventListener('resize', resizeHandler);
+        utils.addEventListener(window, 'resize', resizeHandler);
 
         // Page visibility change
-        document.addEventListener('visibilitychange', () => {
+        utils.addEventListener(document, 'visibilitychange', () => {
             if (document.hidden) {
                 this.pauseAnimations();
             } else {
                 this.resumeAnimations();
             }
+        });
+
+        // Cleanup on page unload
+        utils.addEventListener(window, 'beforeunload', () => {
+            this.cleanup();
         });
     },
 
@@ -478,6 +598,42 @@ const app = {
     resumeAnimations() {
         // Resume animations when page becomes visible
         document.documentElement.style.animationPlayState = 'running';
+    },
+
+    // Cleanup method to prevent memory leaks
+    cleanup() {
+        // Clean up observers
+        state.observers.forEach(observer => {
+            if (observer && observer.disconnect) {
+                observer.disconnect();
+            }
+        });
+
+        // Clean up event listeners
+        state.eventListeners.forEach(({ element, event, handler, options }) => {
+            element.removeEventListener(event, handler, options);
+        });
+
+        // Clean up animation frames
+        state.animationFrames.forEach(frameId => {
+            cancelAnimationFrame(frameId);
+        });
+
+        // Clean up timeouts
+        state.timeouts.forEach(timeoutId => {
+            clearTimeout(timeoutId);
+        });
+
+        // Clean up performance monitor
+        performance.cleanup();
+
+        // Clear state arrays
+        state.observers.length = 0;
+        state.eventListeners.length = 0;
+        state.animationFrames.length = 0;
+        state.timeouts.length = 0;
+
+        console.log('Portfolio cleanup completed');
     }
 };
 
@@ -559,5 +715,5 @@ window.addEventListener('load', () => {
 
 // Export for testing
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { app, navigation, animations, effects, utils, certificateManager };
+    module.exports = { app, navigation, animations, effects, utils, certificateManager, dynamicTitles, performance };
 }
