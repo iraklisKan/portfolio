@@ -1,7 +1,7 @@
 /* Projects Section Styles */
 .projects-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-top: 2rem;
     width: 100%;
@@ -10,8 +10,6 @@
 .project-card {
     border-radius: var(--border-radius);
     overflow: hidden;
-    opacity: 1;
-    transform: none;
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -23,14 +21,14 @@
 /* Responsive design for projects */
 @media (max-width: 1200px) {
     .projects-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
     .projects-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 }
@@ -168,10 +166,6 @@
     border: 1px solid rgba(37, 99, 235, 0.2);
     position: relative;
     overflow: hidden;
-}
-
-.tech-tag::before {
-    display: none;
 }
 
 .project-links {
