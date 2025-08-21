@@ -6,12 +6,12 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with user authentication, payment integration, and admin dashboard.",
-      image: "🛒",
-      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+      title: "Friends Management App",
+      description: "A full-stack CRUD application for managing friends with auto-generated avatars. Built with Python Flask backend and React frontend using Chakra UI components.",
+      image: "👥",
+      technologies: ["React", "Flask", "Python", "SQLAlchemy", "Chakra UI", "SQLite"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "https://github.com/iraklisKan/python_react_chatapp"
     },
     {
       title: "Task Management App",
@@ -38,18 +38,18 @@ const Projects = () => {
       githubUrl: "#"
     },
     {
-      title: "Social Media App",
-      description: "A social networking platform with user profiles, posts, likes, and real-time messaging.",
-      image: "📱",
-      technologies: ["React Native", "Express", "Socket.io"],
+      title: "E-Commerce Platform",
+      description: "A full-stack e-commerce solution with user authentication, payment integration, and admin dashboard.",
+      image: "🛒",
+      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
       liveUrl: "#",
       githubUrl: "#"
     },
     {
-      title: "Expense Tracker",
-      description: "A personal finance management app with budget tracking and expense categorization.",
-      image: "💰",
-      technologies: ["React", "Redux", "Chart.js"],
+      title: "Social Media App",
+      description: "A social networking platform with user profiles, posts, likes, and real-time messaging.",
+      image: "📱",
+      technologies: ["React Native", "Express", "Socket.io"],
       liveUrl: "#",
       githubUrl: "#"
     }
