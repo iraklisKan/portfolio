@@ -14,6 +14,14 @@ const Projects = () => {
       githubUrl: "https://github.com/iraklisKan/python_react_chatapp"
     },
     {
+      title: "Python Real-Time Chat App",
+      description: "A real-time chat application built with Python Flask and Socket.IO for instant messaging with automatic user generation and live broadcasting. 💡 Tip: Open in two separate tabs to see real-time messaging between sender and receiver!",
+      image: "💬",
+      technologies: ["Python", "Flask", "Socket.IO", "WebSockets", "HTML/CSS", "JavaScript"],
+      liveUrl: "https://python-chatapp-gjoe.onrender.com",
+      githubUrl: "https://github.com/iraklisKan/python_Chatapp"
+    },
+    {
       title: "Task Management App",
       description: "A collaborative task management application with real-time updates and team collaboration features.",
       image: "📝",
