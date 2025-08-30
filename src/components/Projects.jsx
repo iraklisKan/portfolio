@@ -22,6 +22,14 @@ const Projects = () => {
       githubUrl: "https://github.com/iraklisKan/python_Chatapp"
     },
     {
+      title: "MERN Stack Note-Taking App",
+      description: "A modern note-taking app built with MongoDB, Express, React, and Node.js. Features include creating, editing, and deleting notes, instant updates, rate limiting, and a beautiful responsive UI using Tailwind CSS and DaisyUI.",
+      image: "📝",
+      technologies: ["MongoDB", "Express", "React", "Node.js", "Tailwind CSS", "DaisyUI"],
+      liveUrl: "https://mernstack-notetaking-app-node.onrender.com/",
+      githubUrl: "https://github.com/iraklisKan/mernstack_Notetaking_app"
+    },
+    {
       title: "Task Management App",
       description: "A collaborative task management application with real-time updates and team collaboration features.",
       image: "📝",
