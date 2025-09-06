@@ -1,4 +1,28 @@
 /* Projects Section Styles */
+
+/* Project Categories */
+.projects-category {
+    margin-bottom: 4rem;
+}
+
+.projects-category-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(59, 130, 246, 0.15));
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    display: inline-block;
+    width: auto;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.2);
+}
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
